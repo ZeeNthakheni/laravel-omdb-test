@@ -21,7 +21,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/trending', [OMDBController::class, 'trending'])->name('movies.trending');
     Route::get('/movie/{id}', [OMDBController::class, 'show'])->name('movies.show');
-    Route::post('/movies/search', [OMDBController::class, 'search'])->name('movies.search');
 
 });
 

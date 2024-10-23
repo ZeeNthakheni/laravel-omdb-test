@@ -17,10 +17,12 @@ class TrendingMovies extends Component
 
     public function mount(){
          
+        // Make a request to the TMDB API to get the popular movies because the OMDB API does not have a trending endpoint
         $response = Http::get('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=' . env('TMDB_API_KEY'));
 
         $result = $response->json();
 
+        // Set the movies property
         $this->movies = $result["results"];
     }
 }
