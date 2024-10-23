@@ -41,13 +41,19 @@ class OMDBController extends Controller
      */
     public function show(string $imdbId)
     {
+        $tmdbResponse = Http::get('https://api.themoviedb.org/3/movie/'.$imdbId.'?language=en-US&api_key='. env('TMDB_API_KEY'));
+        $omdbResponse = "";
+        if(!isset($tmdbResponse->json()["status_message"])){
+            $omdbResponse = Http::get('https://www.omdbapi.com', [
+                'i' => $tmdbResponse->json()["imdb_id"],
+                'apikey' => env('OMDB_API_KEY'),
+            ]);
+            $result = $omdbResponse->json();
+    
+        }else{
+            $result = $tmdbResponse->json();
+        }
 
-        $response = Http::get('https://www.omdbapi.com', [
-            'i' => $imdbId,
-            'apikey' => env('OMDB_API_KEY'),
-        ]);
-
-        $result = $response->json();
         
         return view('movies.show')->with('movie', $result);
     }
